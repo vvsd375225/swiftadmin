@@ -118,3 +118,33 @@ Route::post('notification/read/:id', 'Notification/read');
 Route::post('notification/readall', 'Notification/readAll');
 Route::delete('notification/delete/:id', 'Notification/delete');
 Route::post('notification/send', 'Notification/send');
+
+// Cron (5 routes)
+Route::get('cron/index', 'Cron/index');
+Route::post('cron/save', 'Cron/save');
+Route::put('cron/update', 'Cron/update');
+Route::delete('cron/delete/:id', 'Cron/delete');
+Route::post('cron/execute/:id', 'Cron/execute');
+Route::get('cron/logs/[:id]', 'Cron/logs');
+
+// Tenant (6 routes)
+Route::get('tenant/index', 'Tenant/index');
+Route::get('tenant/detail/:id', 'Tenant/detail');
+Route::post('tenant/save', 'Tenant/save');
+Route::put('tenant/update', 'Tenant/update');
+Route::delete('tenant/delete/:id', 'Tenant/delete');
+Route::get('tenant/plans', 'Tenant/plans');
+
+// Payment (7 routes)
+Route::get('payment/index', 'Payment/index');
+Route::get('payment/detail/:id', 'Payment/detail');
+Route::post('payment/save', 'Payment/save');
+Route::put('payment/update', 'Payment/update');
+Route::delete('payment/delete/:id', 'Payment/delete');
+Route::post('payment/refund/:id', 'Payment/refund');
+Route::get('payment/summary', 'Payment/summary');
+
+// Monitor (3 routes)
+Route::get('monitor/index', 'Monitor/index');
+Route::get('monitor/requests', 'Monitor/requests');
+Route::get('monitor/logs', 'Monitor/logs');

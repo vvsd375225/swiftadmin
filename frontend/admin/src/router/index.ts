@@ -33,7 +33,11 @@ const routes: RouteRecordRaw[] = [
       { path: 'ai', name: 'Ai', component: () => import('@/views/ai/index.vue') },
       { path: 'cms/category', name: 'CmsCategory', component: () => import('@/views/cms/category/index.vue') },
       { path: 'cms/article', name: 'CmsArticle', component: () => import('@/views/cms/article/index.vue') },
-      { path: 'notification', name: 'Notification', component: () => import('@/views/notification/index.vue') }
+      { path: 'notification', name: 'Notification', component: () => import('@/views/notification/index.vue') },
+      { path: 'cron', name: 'Cron', component: () => import('@/views/cron/index.vue') },
+      { path: 'tenant', name: 'Tenant', component: () => import('@/views/tenant/index.vue') },
+      { path: 'payment', name: 'Payment', component: () => import('@/views/payment/index.vue') },
+      { path: 'monitor', name: 'Monitor', component: () => import('@/views/monitor/index.vue') },
       // TODO: 后续步骤 - { path: 'profile', ... }
     ],
   },
