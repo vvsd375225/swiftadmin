@@ -1,0 +1,25 @@
+{
+  "name": "SwiftAdmin",
+  "appid": "",
+  "description": "SwiftAdmin 管理后台小程序端",
+  "versionName": "1.0.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "mp-weixin": {
+    "appid": "",
+    "setting": {
+      "urlCheck": false,
+      "es6": true,
+      "postcss": true,
+      "minified": true
+    },
+    "usingComponents": true,
+    "permission": {},
+    "requiredPrivateInfos": []
+  },
+  "mp-alipay": {},
+  "mp-baidu": {},
+  "mp-toutiao": {},
+  "uniStatistics": { "enable": false },
+  "vueVersion": "3"
+}
