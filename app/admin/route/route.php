@@ -148,3 +148,10 @@ Route::get('payment/summary', 'Payment/summary');
 Route::get('monitor/index', 'Monitor/index');
 Route::get('monitor/requests', 'Monitor/requests');
 Route::get('monitor/logs', 'Monitor/logs');
+
+// CRUD Generator (5 routes)
+Route::get('crud/index', 'Crud/index');
+Route::get('crud/fields/:table', 'Crud/fields');
+Route::get('crud/types', 'Crud/types');
+Route::post('crud/generate', 'Crud/generate');
+Route::post('crud/preview', 'Crud/preview');

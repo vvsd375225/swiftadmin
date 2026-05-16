@@ -38,6 +38,7 @@ const routes: RouteRecordRaw[] = [
       { path: 'tenant', name: 'Tenant', component: () => import('@/views/tenant/index.vue') },
       { path: 'payment', name: 'Payment', component: () => import('@/views/payment/index.vue') },
       { path: 'monitor', name: 'Monitor', component: () => import('@/views/monitor/index.vue') },
+      { path: 'crud', name: 'Crud', component: () => import('@/views/crud/index.vue') },
       // TODO: 后续步骤 - { path: 'profile', ... }
     ],
   },
