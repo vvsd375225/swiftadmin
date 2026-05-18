@@ -143,7 +143,11 @@ echo -e "${YELLOW}[9/9] 安装依赖 & 设置权限...${NC}"
 
 # Composer 依赖
 echo "  安装 PHP 依赖..."
-$PHP_BIN /usr/local/bin/composer install --no-interaction --prefer-dist --no-dev 2>&1 | tail -1
+if command -v composer >/dev/null 2>&1; then
+    composer install --no-interaction --prefer-dist --no-dev 2>&1 | tail -1
+else
+    $PHP_BIN /usr/local/bin/composer install --no-interaction --prefer-dist --no-dev 2>&1 | tail -1
+fi
 
 # 前端构建
 if command -v node >/dev/null 2>&1; then

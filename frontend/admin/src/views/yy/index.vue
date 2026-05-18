@@ -65,4 +65,4 @@ async function handleSave() {
 }
 async function handleDelete(id: number) { try { await deleteYyApi(id); message.success('删除成功'); fetchList() } catch (e) {} }
 onMounted(() => fetchList())
-<\/script>
+</script>
