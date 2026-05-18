@@ -1,6 +1,11 @@
 <?php
 use think\facade\Route;
 
+// Frontend Site
+Route::get('/', 'Site/index');
+Route::get('category/:id', 'Site/category');
+Route::get('article/:id', 'Site/article');
+
 // Auth
 Route::post('auth/login', 'Auth/login');
 Route::get('auth/info', 'Auth/info');
