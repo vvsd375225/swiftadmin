@@ -87,10 +87,13 @@ INSERT INTO `swift_menu` (`id`, `parent_id`, `name`, `title`, `icon`, `path`, `c
 (10, 0, 'system', '系统管理', 'SettingsOutline', '/system', '', 1, '', 4, UNIX_TIMESTAMP()),
 (11, 10, 'config', '系统配置', '', '/system/config', 'views/system/config', 2, 'system:config', 1, UNIX_TIMESTAMP()),
 (12, 10, 'attachment', '附件管理', '', '/system/attachment', 'views/system/attachment', 2, 'system:attachment:list', 2, UNIX_TIMESTAMP()),
-(13, 0, 'data', '数据管理', 'ServerOutline', '/data', '', 1, '', 5, UNIX_TIMESTAMP()),
-(14, 13, 'recycle', '回收站', '', '/data/recycle', 'views/data/recycle', 2, 'data:recycle:list', 1, UNIX_TIMESTAMP()),
-(15, 0, 'generator', '代码生成', 'CodeOutline', '/generator', 'views/generator/index', 1, '', 6, UNIX_TIMESTAMP()),
-(16, 0, 'profile', '个人资料', 'PersonOutline', '/profile', 'views/profile/index', 2, '', 7, UNIX_TIMESTAMP());
+(13, 0, 'data', '数据管理', 'FolderOutline', '/data', '', 1, '', 5, UNIX_TIMESTAMP()),
+(15, 0, 'generator', '代码生成', 'CodeOutline', '/generator', 'views/generator/index', 1, '', 7, UNIX_TIMESTAMP()),
+(16, 0, 'profile', '个人资料', 'PersonOutline', '/profile', 'views/profile/index', 2, '', 17, UNIX_TIMESTAMP()),
+(36, 13, 'security-recycle', '数据回收站', '', '/data/security-recycle', 'views/data/security/recycle', 2, 'data:security:recycle:list', 1, UNIX_TIMESTAMP()),
+(37, 13, 'sensitive-log', '敏感数据修改记录', '', '/data/sensitive-log', 'views/data/security/sensitive-log', 2, 'data:security:sensitive-log:list', 2, UNIX_TIMESTAMP()),
+(38, 13, 'recycle-rule', '数据回收规则管理', '', '/data/recycle-rule', 'views/data/security/recycle-rule', 2, 'data:security:recycle-rule:list', 3, UNIX_TIMESTAMP()),
+(39, 13, 'sensitive-field-rule', '敏感字段规则管理', '', '/data/sensitive-field-rule', 'views/data/security/sensitive-field-rule', 2, 'data:security:sensitive-field-rule:list', 4, UNIX_TIMESTAMP());
 
 -- -------------------------------------------
 -- 4. 管理员日志表
@@ -221,60 +224,7 @@ CREATE TABLE `swift_user_group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='会员分组表';
 
 -- -------------------------------------------
--- 10. 工作流定义表
--- -------------------------------------------
-DROP TABLE IF EXISTS `swift_workflow_definition`;
-CREATE TABLE `swift_workflow_definition` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) NOT NULL,
-  `description` varchar(255) DEFAULT '',
-  `category_id` int(11) DEFAULT 0,
-  `nodes` longtext COMMENT '节点JSON',
-  `edges` longtext COMMENT '连线JSON',
-  `status` tinyint(1) DEFAULT 1,
-  `version` int(11) DEFAULT 1,
-  `create_time` int(11) DEFAULT NULL,
-  `update_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工作流定义表';
-
--- -------------------------------------------
--- 11. 工作流实例表
--- -------------------------------------------
-DROP TABLE IF EXISTS `swift_workflow_instance`;
-CREATE TABLE `swift_workflow_instance` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `definition_id` int(11) unsigned NOT NULL,
-  `title` varchar(128) DEFAULT '',
-  `form_data` text COMMENT '表单数据JSON',
-  `status` tinyint(1) DEFAULT 0 COMMENT '0进行中1通过2驳回3撤回',
-  `applicant_id` int(11) unsigned DEFAULT 0,
-  `current_node` varchar(64) DEFAULT '',
-  `create_time` int(11) DEFAULT NULL,
-  `update_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_definition` (`definition_id`),
-  KEY `idx_applicant` (`applicant_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工作流实例表';
-
--- -------------------------------------------
--- 12. 工作流审批记录
--- -------------------------------------------
-DROP TABLE IF EXISTS `swift_workflow_record`;
-CREATE TABLE `swift_workflow_record` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `instance_id` int(11) unsigned NOT NULL,
-  `node_id` varchar(64) DEFAULT '',
-  `assignee_id` int(11) unsigned DEFAULT 0 COMMENT '审批人',
-  `action` varchar(16) DEFAULT '' COMMENT 'agree/reject/transfer',
-  `comment` text COMMENT '审批意见',
-  `create_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_instance` (`instance_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工作流审批记录';
-
--- -------------------------------------------
--- 13. CMS 文章表
+-- 10. CMS 文章表
 -- -------------------------------------------
 DROP TABLE IF EXISTS `swift_cms_article`;
 CREATE TABLE `swift_cms_article` (
@@ -389,5 +339,86 @@ CREATE TABLE `swift_payment` (
   UNIQUE KEY `uk_order_no` (`order_no`),
   KEY `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='支付单';
+
+-- -------------------------------------------
+-- 19. 安全-数据回收站
+-- -------------------------------------------
+DROP TABLE IF EXISTS `swift_security_data_recycle`;
+CREATE TABLE `swift_security_data_recycle` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `admin_id` int(11) unsigned DEFAULT 0 COMMENT '操作管理员',
+  `rule_name` varchar(64) DEFAULT '' COMMENT '规则名称',
+  `controller` varchar(128) DEFAULT '' COMMENT '来源控制器',
+  `connect_id` int(11) unsigned DEFAULT 0 COMMENT '数据库连接ID',
+  `table_name` varchar(64) NOT NULL COMMENT '原表名',
+  `data` longtext COMMENT '被删数据JSON',
+  `ip` varchar(64) DEFAULT '' COMMENT '操作IP',
+  `create_time` int(11) DEFAULT NULL COMMENT '删除时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_table_name` (`table_name`),
+  KEY `idx_admin_id` (`admin_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='安全数据回收站';
+
+-- -------------------------------------------
+-- 20. 安全-敏感数据修改记录
+-- -------------------------------------------
+DROP TABLE IF EXISTS `swift_security_sensitive_data_log`;
+CREATE TABLE `swift_security_sensitive_data_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `admin_id` int(11) unsigned DEFAULT 0 COMMENT '操作管理员',
+  `rule_name` varchar(64) DEFAULT '' COMMENT '规则名称',
+  `controller` varchar(128) DEFAULT '' COMMENT '来源控制器',
+  `connect_id` int(11) unsigned DEFAULT 0 COMMENT '数据库连接ID',
+  `table_name` varchar(64) NOT NULL COMMENT '数据表名',
+  `row_id` int(11) unsigned DEFAULT 0 COMMENT '被修改行ID',
+  `field_name` varchar(64) DEFAULT '' COMMENT '修改字段',
+  `before_value` text COMMENT '修改前值',
+  `after_value` text COMMENT '修改后值',
+  `ip` varchar(64) DEFAULT '' COMMENT '操作IP',
+  `create_time` int(11) DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_table_name` (`table_name`),
+  KEY `idx_admin_id` (`admin_id`),
+  KEY `idx_create_time` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='敏感数据修改记录';
+
+-- -------------------------------------------
+-- 21. 安全-数据回收规则管理
+-- -------------------------------------------
+DROP TABLE IF EXISTS `swift_security_data_recycle_rule`;
+CREATE TABLE `swift_security_data_recycle_rule` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL COMMENT '规则名称',
+  `controller` varchar(128) NOT NULL COMMENT '控制器',
+  `connect_id` int(11) unsigned DEFAULT 0 COMMENT '数据库连接ID',
+  `table_name` varchar(64) NOT NULL COMMENT '数据表名',
+  `primary_key` varchar(32) DEFAULT 'id' COMMENT '主键字段',
+  `status` tinyint(1) DEFAULT 1 COMMENT '状态:0禁用,1启用',
+  `create_time` int(11) DEFAULT NULL,
+  `update_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_controller` (`controller`),
+  KEY `idx_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='数据回收规则';
+
+-- -------------------------------------------
+-- 22. 安全-敏感字段规则管理
+-- -------------------------------------------
+DROP TABLE IF EXISTS `swift_security_sensitive_field_rule`;
+CREATE TABLE `swift_security_sensitive_field_rule` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL COMMENT '规则名称',
+  `controller` varchar(128) NOT NULL COMMENT '控制器',
+  `connect_id` int(11) unsigned DEFAULT 0 COMMENT '数据库连接ID',
+  `table_name` varchar(64) NOT NULL COMMENT '数据表名',
+  `primary_key` varchar(32) DEFAULT 'id' COMMENT '主键字段',
+  `sensitive_fields` text COMMENT '敏感字段(JSON数组)',
+  `status` tinyint(1) DEFAULT 1 COMMENT '状态:0禁用,1启用',
+  `create_time` int(11) DEFAULT NULL,
+  `update_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_controller` (`controller`),
+  KEY `idx_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='敏感字段规则';
 
 SET FOREIGN_KEY_CHECKS = 1;

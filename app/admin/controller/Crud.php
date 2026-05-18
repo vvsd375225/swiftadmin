@@ -19,6 +19,7 @@ class Crud extends Base
 
     public function fields($table)
     {
+        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $table)) return $this->error('表名格式不合法');
         $tableName = 'swift_' . $table;
         $columns = Db::query("SHOW FULL COLUMNS FROM `{$tableName}`");
         $fields = [];

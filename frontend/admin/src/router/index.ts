@@ -12,12 +12,14 @@ const routes: RouteRecordRaw[] = [
     redirect: '/dashboard',
     component: () => import('@/layout/index.vue'),
     children: [
+      { path: 'auth', redirect: '/auth/admin' },
+      { path: 'user', redirect: '/user/index' },
+      { path: 'system', redirect: '/system/config' },
+      { path: 'data', redirect: '/data/security-recycle' },
+      { path: 'cms', redirect: '/cms/category' },
       { path: 'dashboard', name: 'Dashboard', component: () => import('@/views/dashboard/index.vue') },
       { path: 'datascreen', name: 'DataScreen', component: () => import('@/views/datascreen/index.vue') },
-      { path: 'workflow/index', name: 'Workflow', component: () => import('@/views/workflow/index.vue') },
-      { path: 'workflow/todo', name: 'WorkflowTodo', component: () => import('@/views/workflow/todo.vue') },
-      { path: 'workflow/done', name: 'WorkflowDone', component: () => import('@/views/workflow/done.vue') },
-      { path: 'workflow/mine', name: 'WorkflowMine', component: () => import('@/views/workflow/mine.vue') },
+
       { path: 'auth/admin', name: 'AdminList', component: () => import('@/views/auth/admin/index.vue') },
       { path: 'auth/role', name: 'RoleList', component: () => import('@/views/auth/role/index.vue') },
       { path: 'auth/menu', name: 'MenuList', component: () => import('@/views/auth/menu/index.vue') },
@@ -25,8 +27,12 @@ const routes: RouteRecordRaw[] = [
       { path: 'system/config', name: 'SysConfig', component: () => import('@/views/system/config/index.vue') },
       { path: 'system/attachment', name: 'Attachment', component: () => import('@/views/system/attachment/index.vue') },
       { path: 'data/recycle', name: 'Recycle', component: () => import('@/views/data/recycle/index.vue') },
-      // TODO: 后续步骤 - { path: 'auth/log', ... }
-      // TODO: 后续步骤 - { path: 'user/group', ... }
+      { path: 'data/security-recycle', name: 'SecurityRecycle', component: () => import('@/views/data/security/recycle.vue') },
+      { path: 'data/sensitive-log', name: 'SensitiveLog', component: () => import('@/views/data/security/sensitive-log.vue') },
+      { path: 'data/recycle-rule', name: 'RecycleRule', component: () => import('@/views/data/security/recycle-rule.vue') },
+      { path: 'data/sensitive-field-rule', name: 'SensitiveFieldRule', component: () => import('@/views/data/security/sensitive-field-rule.vue') },
+      { path: 'auth/log', name: 'AuthLog', component: () => import('@/views/auth/log/index.vue') },
+      { path: 'user/group', name: 'UserGroup', component: () => import('@/views/user/group.vue') },
       { path: 'generator', name: 'Generator', component: () => import('@/views/generator/index.vue') },
       { path: 'module', name: 'Module', component: () => import('@/views/module/index.vue') },
       { path: 'terminal', name: 'Terminal', component: () => import('@/views/terminal/index.vue') },
@@ -39,7 +45,7 @@ const routes: RouteRecordRaw[] = [
       { path: 'payment', name: 'Payment', component: () => import('@/views/payment/index.vue') },
       { path: 'monitor', name: 'Monitor', component: () => import('@/views/monitor/index.vue') },
       { path: 'crud', name: 'Crud', component: () => import('@/views/crud/index.vue') },
-      // TODO: 后续步骤 - { path: 'profile', ... }
+      { path: 'profile', name: 'Profile', component: () => import('@/views/profile/index.vue') },
     ],
   },
 ]

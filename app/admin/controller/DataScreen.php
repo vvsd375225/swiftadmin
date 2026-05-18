@@ -17,7 +17,6 @@ class DataScreen extends Base
             'file_stats'  => $this->fileStats(),
             'recent_logs' => $this->recentLogs(),
             'cron_status' => $this->cronStatus(),
-            'workflow_status' => $this->workflowStatus(),
         ];
         return $this->success($data);
     }
@@ -130,16 +129,6 @@ class DataScreen extends Base
             if (!empty($job['last_run_time'])) $running++;
         }
         return ['total' => $total, 'running' => $running, 'jobs' => $jobs];
-    }
-
-    private function workflowStatus()
-    {
-        return [
-            'total'    => Db::name('workflow_instance')->count(),
-            'pending'  => Db::name('workflow_instance')->where('status', 0)->count(),
-            'approved' => Db::name('workflow_instance')->where('status', 1)->count(),
-            'rejected' => Db::name('workflow_instance')->where('status', 2)->count(),
-        ];
     }
 
     private function getDbSize()

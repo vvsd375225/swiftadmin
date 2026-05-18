@@ -26,6 +26,28 @@ class Generator extends Base
         'json'      => ['Textarea', 'json'],
     ];
 
+    /** 可用表单组件列表 */
+    private $componentList = [
+        'Input'          => ['label' => '文本框', 'icon' => 'TextT'],
+        'InputNumber'    => ['label' => '数字输入', 'icon' => 'CalculatorOutline'],
+        'Textarea'       => ['label' => '文本域', 'icon' => 'DocumentTextOutline'],
+        'Select'         => ['label' => '下拉选择', 'icon' => 'ListOutline'],
+        'Switch'         => ['label' => '开关', 'icon' => 'ToggleOutline'],
+        'DatePicker'     => ['label' => '日期选择', 'icon' => 'CalendarOutline'],
+        'DateTimePicker' => ['label' => '日期时间', 'icon' => 'TimeOutline'],
+        'TimePicker'     => ['label' => '时间选择', 'icon' => 'TimeOutline'],
+        'Radio'          => ['label' => '单选框', 'icon' => 'RadioOutline'],
+        'Checkbox'       => ['label' => '多选框', 'icon' => 'CheckboxOutline'],
+        'Upload'         => ['label' => '文件上传', 'icon' => 'CloudUploadOutline'],
+        'ImageUpload'    => ['label' => '图片上传', 'icon' => 'ImageOutline'],
+        'RichText'       => ['label' => '富文本', 'icon' => 'DocumentTextOutline'],
+        'Markdown'       => ['label' => 'Markdown', 'icon' => 'CodeOutline'],
+        'CodeEditor'     => ['label' => '代码编辑器', 'icon' => 'CodeSlashOutline'],
+        'ColorPicker'    => ['label' => '颜色选择', 'icon' => 'ColorPaletteOutline'],
+        'Rate'           => ['label' => '评分', 'icon' => 'StarOutline'],
+        'Slider'         => ['label' => '滑块', 'icon' => 'OptionsOutline'],
+    ];
+
     private $excludeTables = ['swift_workflow_', 'swift_payment', 'swift_tenant', 'swift_cron_', 'swift_notification', 'swift_cms_'];
 
     /**
@@ -59,6 +81,7 @@ class Generator extends Base
     {
         $table = Request::get('table', '');
         if (!$table) return $this->error('请指定表名');
+        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $table)) return $this->error('表名格式不合法');
 
         $columns = Db::query("SHOW FULL COLUMNS FROM `{$table}`");
         $fields = [];
@@ -86,8 +109,9 @@ class Generator extends Base
      */
     public function generate()
     {
-        $table = Request::post('table', '');
+        $table = Request::param('table', '');
         if (!$table) return $this->error('请指定表名');
+        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $table)) return $this->error('表名格式不合法');
 
         $prefix = config('database.connections.mysql.prefix') ?: 'swift_';
         $name = str_replace($prefix, '', $table);
@@ -95,19 +119,36 @@ class Generator extends Base
         $comment = $this->getTableComment($table);
         $columns = Db::query("SHOW FULL COLUMNS FROM `{$table}`");
 
+        // 接收字段配置覆盖
+        $fieldOverrides = Request::param('fields/a', []);
+        $overrideMap = [];
+        foreach ($fieldOverrides as $fo) {
+            $overrideMap[$fo['name']] = $fo;
+        }
+
         $fields = [];
         $searchFields = [];
         foreach ($columns as $col) {
             if (in_array($col['Field'], ['id', 'create_time', 'update_time', 'delete_time'])) continue;
             $type = $this->parseType($col['Type']);
             $map  = $this->getTypeMapping($type, $col['Type']);
+            $fname = $col['Field'];
+
+            // 应用覆盖配置
+            $override = $overrideMap[$fname] ?? [];
+            $component = $override['component'] ?? $map[0];
+            $fieldComment = $override['comment'] ?? ($col['Comment'] ?: $col['Field']);
+
             $fields[] = [
-                'name'      => $col['Field'],
-                'comment'   => $col['Comment'] ?: $col['Field'],
-                'component' => $map[0],
+                'name'      => $fname,
+                'comment'   => $fieldComment,
+                'component' => $component,
             ];
-            if (in_array($type, ['varchar', 'char'])) {
-                $searchFields[] = $col['Field'];
+
+            // 搜索字段
+            $searchable = $override['searchable'] ?? in_array($type, ['varchar', 'char']);
+            if ($searchable) {
+                $searchFields[] = $fname;
             }
         }
 
@@ -150,8 +191,9 @@ class Generator extends Base
      */
     public function preview()
     {
-        $table = Request::get('table', '');
+        $table = Request::param('table', '');
         if (!$table) return $this->error('请指定表名');
+        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $table)) return $this->error('表名格式不合法');
 
         $prefix = config('database.connections.mysql.prefix') ?: 'swift_';
         $name = str_replace($prefix, '', $table);
@@ -159,19 +201,36 @@ class Generator extends Base
         $comment = $this->getTableComment($table);
         $columns = Db::query("SHOW FULL COLUMNS FROM `{$table}`");
 
+        // 接收字段配置覆盖
+        $fieldOverrides = Request::param('fields/a', []);
+        $overrideMap = [];
+        foreach ($fieldOverrides as $fo) {
+            $overrideMap[$fo['name']] = $fo;
+        }
+
         $fields = [];
         $searchFields = [];
         foreach ($columns as $col) {
             if (in_array($col['Field'], ['id', 'create_time', 'update_time', 'delete_time'])) continue;
             $type = $this->parseType($col['Type']);
             $map  = $this->getTypeMapping($type, $col['Type']);
+            $fname = $col['Field'];
+
+            // 应用覆盖配置
+            $override = $overrideMap[$fname] ?? [];
+            $component = $override['component'] ?? $map[0];
+            $fieldComment = $override['comment'] ?? ($col['Comment'] ?: $col['Field']);
+
             $fields[] = [
-                'name'      => $col['Field'],
-                'comment'   => $col['Comment'] ?: $col['Field'],
-                'component' => $map[0],
+                'name'      => $fname,
+                'comment'   => $fieldComment,
+                'component' => $component,
             ];
-            if (in_array($type, ['varchar', 'char'])) {
-                $searchFields[] = $col['Field'];
+
+            // 搜索字段
+            $searchable = $override['searchable'] ?? in_array($type, ['varchar', 'char']);
+            if ($searchable) {
+                $searchFields[] = $fname;
             }
         }
 
@@ -181,6 +240,18 @@ class Generator extends Base
             'api'        => $this->buildApi($className, $name),
             'route'      => "Route::resource('{$name}', '{$className}');",
         ]);
+    }
+
+    /**
+     * 获取可用的表单组件类型列表
+     */
+    public function types()
+    {
+        $list = [];
+        foreach ($this->componentList as $value => $info) {
+            $list[] = ['value' => $value, 'label' => $info['label'], 'icon' => $info['icon']];
+        }
+        return $this->success($list);
     }
 
     // ---------- 模板构建 ----------

@@ -4,7 +4,7 @@ namespace app\common\service;
 class AiService
 {
     private static $cipher = 'AES-256-CBC';
-    private static $secret = 'MCSW2025SwiftAdmin#@!CodeCreate';
+    private static $secret = ''; // 从 config('app.ai_secret') 读取，请在 .env 中配置 AI_SECRET
 
     // 会员等级定义 ['tier' => ['name', tokens/月]]
     private static $tiers = [

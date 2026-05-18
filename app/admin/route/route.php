@@ -46,6 +46,35 @@ Route::get('recycle/index', 'Recycle/index');
 Route::post('recycle/restore/:id', 'Recycle/restore');
 Route::delete('recycle/delete/:id', 'Recycle/delete');
 
+// Security - Data Recycle
+Route::get('security_data_recycle/index', 'SecurityDataRecycle/index');
+Route::post('security_data_recycle/restore/:id', 'SecurityDataRecycle/restore');
+Route::delete('security_data_recycle/delete/:id', 'SecurityDataRecycle/delete');
+Route::post('security_data_recycle/batchDelete', 'SecurityDataRecycle/batchDelete');
+Route::post('security_data_recycle/batchRestore', 'SecurityDataRecycle/batchRestore');
+
+// Security - Sensitive Data Log
+Route::get('sensitive_data_log/index', 'SensitiveDataLog/index');
+Route::get('sensitive_data_log/detail/:id', 'SensitiveDataLog/detail');
+Route::post('sensitive_data_log/rollback/:id', 'SensitiveDataLog/rollback');
+Route::post('sensitive_data_log/batchRollback', 'SensitiveDataLog/batchRollback');
+Route::delete('sensitive_data_log/delete/:id', 'SensitiveDataLog/delete');
+Route::post('sensitive_data_log/batchDelete', 'SensitiveDataLog/batchDelete');
+
+// Security - Data Recycle Rule
+Route::get('data_recycle_rule/index', 'DataRecycleRule/index');
+Route::post('data_recycle_rule/save', 'DataRecycleRule/save');
+Route::put('data_recycle_rule/update', 'DataRecycleRule/update');
+Route::delete('data_recycle_rule/delete/:id', 'DataRecycleRule/delete');
+Route::post('data_recycle_rule/toggleStatus/:id', 'DataRecycleRule/toggleStatus');
+
+// Security - Sensitive Field Rule
+Route::get('sensitive_field_rule/index', 'SensitiveFieldRule/index');
+Route::post('sensitive_field_rule/save', 'SensitiveFieldRule/save');
+Route::put('sensitive_field_rule/update', 'SensitiveFieldRule/update');
+Route::delete('sensitive_field_rule/delete/:id', 'SensitiveFieldRule/delete');
+Route::post('sensitive_field_rule/toggleStatus/:id', 'SensitiveFieldRule/toggleStatus');
+
 // Dashboard
 Route::get('dashboard/index', 'Dashboard/index');
 
@@ -56,6 +85,7 @@ Route::get('datascreen/index', 'DataScreen/index');
 Route::get('generator/index', 'Generator/index');
 Route::get('generator/fields', 'Generator/fields');
 Route::get('generator/preview', 'Generator/preview');
+Route::get('generator/types', 'Generator/types');
 Route::post('generator/generate', 'Generator/generate');
 
 // AI
@@ -78,24 +108,6 @@ Route::post('module/installfromaisc', 'Module/installFromAisc');
 Route::post('module/uninstall', 'Module/uninstall');
 Route::post('module/enable', 'Module/enable');
 Route::post('module/disable', 'Module/disable');
-
-// Workflow
-Route::get('workflow/index', 'Workflow/index');
-Route::post('workflow/save', 'Workflow/save');
-Route::put('workflow/update', 'Workflow/update');
-Route::delete('workflow/delete/:id', 'Workflow/delete');
-Route::get('workflow/detail/:id', 'Workflow/detail');
-
-// WorkflowInstance
-Route::get('workflow/instance/todo', 'WorkflowInstance/todo');
-Route::get('workflow/instance/mine', 'WorkflowInstance/mine');
-Route::get('workflow/instance/done', 'WorkflowInstance/done');
-Route::post('workflow/instance/start', 'WorkflowInstance/start');
-Route::get('workflow/instance/detail/:id', 'WorkflowInstance/detail');
-Route::post('workflow/instance/agree', 'WorkflowInstance/agree');
-Route::post('workflow/instance/reject', 'WorkflowInstance/reject');
-Route::post('workflow/instance/transfer', 'WorkflowInstance/transfer');
-Route::post('workflow/instance/addsigner', 'WorkflowInstance/addsigner');
 
 // CMS Category
 Route::get('cms/category/index', 'CmsCategory/index');
@@ -155,3 +167,15 @@ Route::get('crud/fields/:table', 'Crud/fields');
 Route::get('crud/types', 'Crud/types');
 Route::post('crud/generate', 'Crud/generate');
 Route::post('crud/preview', 'Crud/preview');
+// 管理员表
+Route::resource('admin', 'Admin');
+
+// AuthLog
+Route::get('auth_log/index', 'AuthLog/index');
+Route::delete('auth_log/delete/:id', 'AuthLog/delete');
+
+// UserGroup
+Route::get('user_group/index', 'UserGroup/index');
+Route::post('user_group/save', 'UserGroup/save');
+Route::put('user_group/update', 'UserGroup/update');
+Route::delete('user_group/delete/:id', 'UserGroup/delete');

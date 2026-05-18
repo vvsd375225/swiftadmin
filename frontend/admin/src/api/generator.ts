@@ -6,9 +6,12 @@ export function getGeneratorTablesApi() {
 export function getGeneratorFieldsApi(table: string) {
   return request.get('/admin/generator/fields', { params: { table } })
 }
-export function previewGeneratorApi(table: string) {
-  return request.get('/admin/generator/preview', { params: { table } })
+export function getGeneratorTypesApi() {
+  return request.get('/admin/generator/types')
 }
-export function generateCodeApi(table: string) {
-  return request.post('/admin/generator/generate', { table })
+export function previewGeneratorApi(table: string, fields?: any[]) {
+  return request.get('/admin/generator/preview', { params: { table, fields } })
+}
+export function generateCodeApi(table: string, fields?: any[]) {
+  return request.post('/admin/generator/generate', { table, fields })
 }
