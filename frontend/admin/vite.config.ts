@@ -7,6 +7,11 @@ import UnoCSS from 'unocss/vite'
 import { resolve } from 'path'
 
 export default defineConfig({
+  base: '/admin/',
+  build: {
+    outDir: '../../public/admin',
+    emptyOutDir: true,
+  },
   plugins: [
     vue(),
     AutoImport({
