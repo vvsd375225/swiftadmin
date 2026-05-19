@@ -1,0 +1,9 @@
+<?php
+echo json_encode([
+    'REQUEST_URI' => $_SERVER['REQUEST_URI'] ?? 'NOT SET',
+    'SCRIPT_NAME' => $_SERVER['SCRIPT_NAME'] ?? 'NOT SET',
+    'SCRIPT_FILENAME' => $_SERVER['SCRIPT_FILENAME'] ?? 'NOT SET',
+    'PATH_INFO' => $_SERVER['PATH_INFO'] ?? 'NOT SET',
+    'PHP_SELF' => $_SERVER['PHP_SELF'] ?? 'NOT SET',
+    'DOCUMENT_URI' => $_SERVER['DOCUMENT_URI'] ?? 'NOT SET',
+]);

@@ -1,0 +1,1 @@
+import{t as e}from"./request-CJzN0vVk.js";function t(t){return e.get(`/admin/notification/index`,{params:t})}function n(){return e.get(`/admin/notification/unread`)}function r(t){return e.post(`/admin/notification/read/${t}`)}function i(){return e.post(`/admin/notification/readall`)}export{r as i,n,i as r,t};

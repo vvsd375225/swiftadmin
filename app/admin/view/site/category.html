@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$pageTitle}</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background:#f5f7fa; color:#333; }
+        a { text-decoration:none; color:inherit; }
+        .header { background:linear-gradient(135deg, #18A058 0%, #0d7a3e 100%); padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:64px; }
+        .logo { font-size:24px; font-weight:700; color:#fff; }
+        .nav { display:flex; gap:8px; }
+        .nav a { color:rgba(255,255,255,.85); padding:8px 16px; border-radius:6px; }
+        .nav a:hover,.nav a.active { background:rgba(255,255,255,.2); color:#fff; }
+        .btn-outline { color:#fff; border:1px solid rgba(255,255,255,.5); padding:8px 20px; border-radius:6px; }
+        .banner { background:linear-gradient(135deg, #18A058, #0d7a3e); padding:60px 40px; text-align:center; color:#fff; }
+        .banner h1 { font-size:36px; }
+        .container { max-width:900px; margin:0 auto; padding:40px 20px; }
+        .article-item { background:#fff; border-radius:12px; padding:24px; margin-bottom:16px; border:1px solid #eee; }
+        .article-item:hover { box-shadow:0 4px 16px rgba(0,0,0,.06); }
+        .article-item h3 { font-size:20px; margin-bottom:8px; }
+        .article-item h3 a:hover { color:#18A058; }
+        .article-item .desc { color:#666; line-height:1.6; margin-bottom:8px; }
+        .article-item .meta { color:#999; font-size:12px; }
+        .more-btn { text-align:center; margin-top:24px; }
+        .more-btn a { padding:12px 40px; background:#18A058; color:#fff; border-radius:8px; display:inline-block; }
+        .footer { background:#1a1a2e; color:rgba(255,255,255,.6); text-align:center; padding:32px; margin-top:60px; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo">SwiftAdmin</a>
+        <nav class="nav">
+            <a href="/">首页</a>
+            {foreach $nav as $n}
+            <a href="/category/{$n.id}" {if $n.id == $cate.id}class="active"{/if}>{$n.name}</a>
+            {/foreach}
+        </nav>
+        <a href="/admin" class="btn-outline">管理后台</a>
+    </header>
+
+    <div class="banner"><h1>{$cate.name}</h1></div>
+
+    <div class="container">
+        {if count($articles) == 0}
+        <p style="text-align:center;color:#999;padding:60px;">暂无文章</p>
+        {else}
+        {foreach $articles as $a}
+        <div class="article-item">
+            <h3><a href="/article/{$a.id}">{$a.title}</a></h3>
+            <p class="desc">{$a.summary}</p>
+            <span class="meta">{$a.publish_time}</span>
+        </div>
+        {/foreach}
+        {if $hasMore}<div class="more-btn"><a href="?page={$page+1}">加载更多</a></div>{/if}
+        {/if}
+    </div>
+
+    <footer class="footer"><p>Powered by SwiftAdmin &copy; 2026</p></footer>
+</body>
+</html>

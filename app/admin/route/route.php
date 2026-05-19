@@ -1,0 +1,186 @@
+<?php
+use think\facade\Route;
+
+// Frontend Site
+Route::get('/', 'Site/index');
+Route::get('category/:id', 'Site/category');
+Route::get('article/:id', 'Site/article');
+
+// Auth
+Route::post('auth/login', 'Auth/login');
+Route::get('auth/info', 'Auth/info');
+Route::get('auth/permissions', 'Auth/permissions');
+Route::post('auth/logout', 'Auth/logout');
+
+// Role
+Route::get('role/index', 'Role/index');
+Route::post('role/save', 'Role/save');
+Route::put('role/update', 'Role/update');
+Route::delete('role/delete/:id', 'Role/delete');
+
+// Menu
+Route::get('menu/index', 'Menu/index');
+Route::post('menu/save', 'Menu/save');
+Route::put('menu/update', 'Menu/update');
+Route::delete('menu/delete/:id', 'Menu/delete');
+
+// Admin
+Route::get('admin/index', 'Admin/index');
+Route::post('admin/save', 'Admin/save');
+Route::put('admin/update', 'Admin/update');
+Route::delete('admin/delete/:id', 'Admin/delete');
+
+// User
+Route::get('user/index', 'User/index');
+Route::post('user/save', 'User/save');
+Route::put('user/update', 'User/update');
+Route::delete('user/delete/:id', 'User/delete');
+
+// Config
+Route::get('config/index', 'Config/index');
+Route::post('config/save', 'Config/save');
+Route::put('config/update', 'Config/update');
+Route::delete('config/delete/:id', 'Config/delete');
+
+// Attachment
+Route::get('attachment/index', 'Attachment/index');
+Route::delete('attachment/delete/:id', 'Attachment/delete');
+
+// Recycle
+Route::get('recycle/index', 'Recycle/index');
+Route::post('recycle/restore/:id', 'Recycle/restore');
+Route::delete('recycle/delete/:id', 'Recycle/delete');
+
+// Security - Data Recycle
+Route::get('security_data_recycle/index', 'SecurityDataRecycle/index');
+Route::post('security_data_recycle/restore/:id', 'SecurityDataRecycle/restore');
+Route::delete('security_data_recycle/delete/:id', 'SecurityDataRecycle/delete');
+Route::post('security_data_recycle/batchDelete', 'SecurityDataRecycle/batchDelete');
+Route::post('security_data_recycle/batchRestore', 'SecurityDataRecycle/batchRestore');
+
+// Security - Sensitive Data Log
+Route::get('sensitive_data_log/index', 'SensitiveDataLog/index');
+Route::get('sensitive_data_log/detail/:id', 'SensitiveDataLog/detail');
+Route::post('sensitive_data_log/rollback/:id', 'SensitiveDataLog/rollback');
+Route::post('sensitive_data_log/batchRollback', 'SensitiveDataLog/batchRollback');
+Route::delete('sensitive_data_log/delete/:id', 'SensitiveDataLog/delete');
+Route::post('sensitive_data_log/batchDelete', 'SensitiveDataLog/batchDelete');
+
+// Security - Data Recycle Rule
+Route::get('data_recycle_rule/index', 'DataRecycleRule/index');
+Route::post('data_recycle_rule/save', 'DataRecycleRule/save');
+Route::put('data_recycle_rule/update', 'DataRecycleRule/update');
+Route::delete('data_recycle_rule/delete/:id', 'DataRecycleRule/delete');
+Route::post('data_recycle_rule/toggleStatus/:id', 'DataRecycleRule/toggleStatus');
+
+// Security - Sensitive Field Rule
+Route::get('sensitive_field_rule/index', 'SensitiveFieldRule/index');
+Route::post('sensitive_field_rule/save', 'SensitiveFieldRule/save');
+Route::put('sensitive_field_rule/update', 'SensitiveFieldRule/update');
+Route::delete('sensitive_field_rule/delete/:id', 'SensitiveFieldRule/delete');
+Route::post('sensitive_field_rule/toggleStatus/:id', 'SensitiveFieldRule/toggleStatus');
+
+// Dashboard
+Route::get('dashboard/index', 'Dashboard/index');
+
+// DataScreen
+Route::get('datascreen/index', 'DataScreen/index');
+
+// Generator
+Route::get('generator/index', 'Generator/index');
+Route::get('generator/fields', 'Generator/fields');
+Route::get('generator/preview', 'Generator/preview');
+Route::get('generator/types', 'Generator/types');
+Route::post('generator/generate', 'Generator/generate');
+
+// AI
+Route::get('ai/config', 'Ai/config');
+Route::post('ai/chat', 'Ai/chat');
+Route::post('ai/activate', 'Ai/activate');
+Route::post('ai/setupprovider', 'Ai/setupProvider');
+Route::post('ai/genlicense', 'Ai/genLicense');
+Route::post('ai/savefile', 'Ai/savefile');
+Route::get('ai/listfiles', 'Ai/listfiles');
+
+// Terminal
+Route::post('terminal/execute', 'Terminal/execute');
+
+// Module
+Route::get('module/index', 'Module/index');
+Route::get('module/scanaisc', 'Module/scanAisc');
+Route::post('module/install', 'Module/install');
+Route::post('module/installfromaisc', 'Module/installFromAisc');
+Route::post('module/uninstall', 'Module/uninstall');
+Route::post('module/enable', 'Module/enable');
+Route::post('module/disable', 'Module/disable');
+
+// CMS Category
+Route::get('cms/category/index', 'CmsCategory/index');
+Route::get('cms/category/tree', 'CmsCategory/tree');
+Route::post('cms/category/save', 'CmsCategory/save');
+Route::put('cms/category/update', 'CmsCategory/update');
+Route::delete('cms/category/delete/:id', 'CmsCategory/delete');
+
+// CMS Article
+Route::get('cms/article/index', 'CmsArticle/index');
+Route::post('cms/article/save', 'CmsArticle/save');
+Route::put('cms/article/update', 'CmsArticle/update');
+Route::delete('cms/article/delete/:id', 'CmsArticle/delete');
+Route::get('cms/article/detail/:id', 'CmsArticle/detail');
+
+// Notification
+Route::get('notification/index', 'Notification/index');
+Route::get('notification/unread', 'Notification/unread');
+Route::post('notification/read/:id', 'Notification/read');
+Route::post('notification/readall', 'Notification/readAll');
+Route::delete('notification/delete/:id', 'Notification/delete');
+Route::post('notification/send', 'Notification/send');
+
+// Cron (5 routes)
+Route::get('cron/index', 'Cron/index');
+Route::post('cron/save', 'Cron/save');
+Route::put('cron/update', 'Cron/update');
+Route::delete('cron/delete/:id', 'Cron/delete');
+Route::post('cron/execute/:id', 'Cron/execute');
+Route::get('cron/logs/[:id]', 'Cron/logs');
+
+// Tenant (6 routes)
+Route::get('tenant/index', 'Tenant/index');
+Route::get('tenant/detail/:id', 'Tenant/detail');
+Route::post('tenant/save', 'Tenant/save');
+Route::put('tenant/update', 'Tenant/update');
+Route::delete('tenant/delete/:id', 'Tenant/delete');
+Route::get('tenant/plans', 'Tenant/plans');
+
+// Payment (7 routes)
+Route::get('payment/index', 'Payment/index');
+Route::get('payment/detail/:id', 'Payment/detail');
+Route::post('payment/save', 'Payment/save');
+Route::put('payment/update', 'Payment/update');
+Route::delete('payment/delete/:id', 'Payment/delete');
+Route::post('payment/refund/:id', 'Payment/refund');
+Route::get('payment/summary', 'Payment/summary');
+
+// Monitor (3 routes)
+Route::get('monitor/index', 'Monitor/index');
+Route::get('monitor/requests', 'Monitor/requests');
+Route::get('monitor/logs', 'Monitor/logs');
+
+// CRUD Generator (5 routes)
+Route::get('crud/index', 'Crud/index');
+Route::get('crud/fields/:table', 'Crud/fields');
+Route::get('crud/types', 'Crud/types');
+Route::post('crud/generate', 'Crud/generate');
+Route::post('crud/preview', 'Crud/preview');
+// 管理员表
+Route::resource('admin', 'Admin');
+
+// AuthLog
+Route::get('auth_log/index', 'AuthLog/index');
+Route::delete('auth_log/delete/:id', 'AuthLog/delete');
+
+// UserGroup
+Route::get('user_group/index', 'UserGroup/index');
+Route::post('user_group/save', 'UserGroup/save');
+Route::put('user_group/update', 'UserGroup/update');
+Route::delete('user_group/delete/:id', 'UserGroup/delete');

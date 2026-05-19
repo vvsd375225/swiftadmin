@@ -1,0 +1,1 @@
+import{t as e}from"./request-CJzN0vVk.js";function t(t){return e.get(`/admin/admin/index`,{params:t})}function n(t){return e.post(`/admin/admin/save`,t)}function r(t){return e.put(`/admin/admin/update`,t)}function i(t){return e.delete(`/admin/admin/delete/${t}`)}export{r as i,t as n,n as r,i as t};
