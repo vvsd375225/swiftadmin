@@ -20,9 +20,6 @@ if (($path === '/admin' || $path === '/admin/') && $_SERVER['REQUEST_METHOD'] ==
     }
 }
 
-// Fix PHP built-in server: when admin/index.html exists, the server
-// sets SCRIPT_NAME=/admin/index.html and PATH_INFO incorrectly.
-// Reset both so ThinkPHP receives the full path for routing.
 $_SERVER['SCRIPT_NAME'] = '/index.php';
 $_SERVER['PATH_INFO'] = $path;
 $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/index.php';
